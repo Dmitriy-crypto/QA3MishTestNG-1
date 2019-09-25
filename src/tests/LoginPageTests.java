@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -21,10 +22,15 @@ public class LoginPageTests extends TestBase {
         WebElement loginIcon = driver.findElement(By.id("idsignin"));
         loginIcon.click();
         Thread.sleep(2000);
-        System.out.println("We are on the Login window: " + driver
-                .findElement(By.id("clickreg")).getText().contains("registration"));
 
+    }
 
+    @Test
+    public void loginScreenVerificationTest(){
+
+        Assert.assertTrue(driver
+                .findElement(By.id("clickreg")).getText().contains("registration"),
+                "It is not login screen or there is no 'registration' on login screen");
     }
 
     @Test
@@ -47,6 +53,9 @@ public class LoginPageTests extends TestBase {
         // ---- Usr is on the HomePage for the unauthorized user
         System.out.println("User is on the HomePage unauthorized: " + driver
                 .findElement(By.id("idsignin")).getText().equals("Login"));
+        Assert.assertEquals(driver
+                .findElement(By.id("idsignin")).getText(),"Login",
+                "Name of the login button is not 'Login'");
 
 
     }
@@ -57,8 +66,9 @@ public class LoginPageTests extends TestBase {
         driver.findElement(By.id("closedsignin")).click();
         Thread.sleep(3000);
         // ---- Usr is on the HomePage for the unauthorized user
-        System.out.println("User is on the HomePage unauthorized: " + driver
-                .findElement(By.id("idsignin")).getText().equals("Login"));
+        Assert.assertEquals(driver
+                .findElement(By.id("idsignin")).getText(),"Login",
+                "Name of the login button is not 'Login'");
 
 
     }
@@ -80,8 +90,8 @@ public class LoginPageTests extends TestBase {
         WebElement profileIcon = driver.findElement(By.id("profile"));
 
         // ------ Check that we on the HomePage for authorized user---
-        System.out.println("We logged in: "
-                + profileIcon.getAttribute("title").contains("marinaA"));
+
+        Assert.assertTrue(profileIcon.getAttribute("title").contains("marinaA"),"ProfileIcon do not contains login");
 
 
     }
