@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -31,7 +32,8 @@ public class WebLoginPageTests extends TestBase{
      driver.findElement(By.id("signinrequest")).click();
      Thread.sleep(10000);
      WebElement profileIcon = driver.findElement(By.id("profile"));
-     System.out.println("We are on the Home Page (Auth) screen: " + profileIcon.getAttribute("title").contains("marinaA"));
+     //System.out.println("We are on the Home Page (Auth) screen: " + profileIcon.getAttribute("title").contains("marinaA"));
+        Assert.assertTrue(profileIcon.getAttribute("title").contains("marinaA"));
 
  }
 
@@ -58,6 +60,9 @@ public class WebLoginPageTests extends TestBase{
      // ---- Usr is on the HomePage for the unauthorized user
      System.out.println("User is on the HomePage unauthorized: " + driver
              .findElement(By.id("idsignin")).getText().equals("Login"));
+
+     Assert.assertEquals(driver
+             .findElement(By.id("idsignin")).getText(), "Login","Name of the loginButton is not equal to 'Login'");
 
  }
 }
