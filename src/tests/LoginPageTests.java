@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,7 +23,8 @@ public class LoginPageTests extends TestBase {
         //--- Login to the system ----
         WebElement loginIcon = driver.findElement(By.id("idsignin"));
         loginIcon.click();
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
+        waitUntilElementIsClickable(By.id("signinrequest"),20);
 
     }
 
@@ -41,30 +44,37 @@ public class LoginPageTests extends TestBase {
         driver.findElement(By.id("passwordinput")).sendKeys("123");
         WebElement signInButton = driver.findElement(By.id("signinrequest"));
         signInButton.click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
+        waitUntilElementIsVisible(By.id("wrongloginorpassword"),10);
 
         //--- Error message 'wrong authorization is displayed' ----
         System.out.println("The system displays an error message: " + driver
-                .findElement(By.id("wrongloginorpassword")).getText().contains("Wrong Authorization"));
+                .findElement(By.id("wrongloginorpassword")).getText()
+                .contains("Wrong Authorization"));
 
         //--- Close login window ---
         driver.findElement(By.id("closedsignin")).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
+        waitUntilElementIsClickable(By.id("idsignin"),20);
+        waitUntilElementIsVisible(By
+                .xpath("//span[@id='idtitletypesearchevents']"),20);
         // ---- Usr is on the HomePage for the unauthorized user
         System.out.println("User is on the HomePage unauthorized: " + driver
                 .findElement(By.id("idsignin")).getText().equals("Login"));
         Assert.assertEquals(driver
                 .findElement(By.id("idsignin")).getText(),"Login",
                 "Name of the login button is not 'Login'");
-
-
     }
 
     @Test
     public void loginExitByCancelTest() throws InterruptedException {
         //--- Close login window ---
         driver.findElement(By.id("closedsignin")).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
+        waitUntilElementIsClickable(By.id("idsignin"),20);
+        waitUntilElementIsVisible(By
+                .xpath("//span[@id='idtitletypesearchevents']"),20);
+
         // ---- Usr is on the HomePage for the unauthorized user
         Assert.assertEquals(driver
                 .findElement(By.id("idsignin")).getText(),"Login",
@@ -86,7 +96,8 @@ public class LoginPageTests extends TestBase {
         driver.findElement(By.id("signinrequest")).click();
 
         //---- Go to the HomePage Auth -------
-        Thread.sleep(7000);
+        //Thread.sleep(7000);
+        waitUntilElementIsClickable(By.id("profile"),30);
         WebElement profileIcon = driver.findElement(By.id("profile"));
 
         // ------ Check that we on the HomePage for authorized user---

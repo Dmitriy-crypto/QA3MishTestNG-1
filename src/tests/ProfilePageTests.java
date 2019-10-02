@@ -109,20 +109,33 @@ public class ProfilePageTests extends TestBase{
         //----------------------Comparing--------------------------
 
         System.out.println("Confession values are the same for profile and family page: "
-                + driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText().equals(profileConfession));
+                + driver.findElement(By.xpath("//span[@id='fieldobjconfession']"))
+                                        .getText().equals(profileConfession));
 
         System.out.println("Language values are the same for profile and family page: "
-                + driver.findElement(By.xpath("//span[@id='fieldobjlanguages']")).getText().equals(profileLanguage));
+                + driver.findElement(By.xpath("//span[@id='fieldobjlanguages']"))
+                                        .getText().equals(profileLanguage));
 
         System.out.println("Food preferences values are the same for profile and family page: "
-                + driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences")).getText().equals(profileFoodPreference));
+                + driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences"))
+                                        .getText().equals(profileFoodPreference));
+        int counter = 0;
+        if (driver.findElement(By.xpath("//span[@id='fieldobjconfession']"))
+                .getText().equals(profileConfession)) counter++;
+        if (driver.findElement(By.xpath("//span[@id='fieldobjlanguages']"))
+                .getText().equals(profileLanguage)) counter++;
+        if (driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences"))
+                .getText().equals(profileFoodPreference)) counter++;
 
-        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText(),profileConfession,
+        Assert.assertEquals(counter,3);
+        /*Assert.assertEquals(driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText(),profileConfession,
                 "Confession values are the same on profile and family pages");
         Assert.assertEquals(driver.findElement(By.xpath("//span[@id='fieldobjlanguages']")).getText(), profileLanguage,
                 "Language values are the same on profile and family pages");
         Assert.assertEquals(driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences")).getText(),
                 profileFoodPreference,"Food preferences values are the same on profile and family pages");
 
+        */
     }
+
 }
