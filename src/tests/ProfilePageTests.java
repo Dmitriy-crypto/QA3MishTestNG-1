@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -83,7 +84,45 @@ public class ProfilePageTests extends TestBase{
 
         System.out.println("Last name was changed: " + driver.findElement(By.linkText("Shuster")).isDisplayed());
 
-        driver.quit();
+        //driver.quit();
+        Assert.assertTrue(driver.findElement(By.linkText("Shuster")).isDisplayed(),
+                "There is no an element which can be find by linkText('Shuster')");
+
+    }
+    @Test
+    public void profileAndFamilyPageComparing() throws InterruptedException {
+
+        String profileConfession = driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText();
+        System.out.println("Profile confession: " + profileConfession);
+
+        String profileLanguage = driver.findElement(By.cssSelector("#fieldobjlanguages")).getText();
+        System.out.println("Profile Language: " + profileLanguage);
+
+        String profileFoodPreference = driver.findElement(By.xpath("//*[@id='fieldobjfoodPreferences']")).getText();
+        System.out.println("Profile Food Preference: " + profileFoodPreference);
+
+
+        //----------------- Go to the Family ------------------------
+        driver.findElement(By.id("family")).click();
+        Thread.sleep(5000);
+
+        //----------------------Comparing--------------------------
+
+        System.out.println("Confession values are the same for profile and family page: "
+                + driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText().equals(profileConfession));
+
+        System.out.println("Language values are the same for profile and family page: "
+                + driver.findElement(By.xpath("//span[@id='fieldobjlanguages']")).getText().equals(profileLanguage));
+
+        System.out.println("Food preferences values are the same for profile and family page: "
+                + driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences")).getText().equals(profileFoodPreference));
+
+        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText(),profileConfession,
+                "Confession values are the same on profile and family pages");
+        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='fieldobjlanguages']")).getText(), profileLanguage,
+                "Language values are the same on profile and family pages");
+        Assert.assertEquals(driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences")).getText(),
+                profileFoodPreference,"Food preferences values are the same on profile and family pages");
 
     }
 }

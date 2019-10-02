@@ -20,8 +20,8 @@ public class HomePageTests extends TestBase {
         //--Verify that listEvent elements contains 'list events' text
 
 
-        Assert.assertEquals(listEvent.getText(),"List evvents",
-                "Name of the listEventt element is not 'List evvents'");
+        Assert.assertEquals(listEvent.getText(),"List events",
+                "Name of the listEvent element is not 'List events'");
 
     }
 
