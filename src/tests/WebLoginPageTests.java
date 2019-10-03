@@ -14,10 +14,11 @@ public class WebLoginPageTests extends TestBase{
 
     @BeforeMethod
     public void initTests() throws InterruptedException {
-        Thread.sleep(6000);
+        //Thread.sleep(6000);
         WebElement loginIcon  = driver.findElement(By.id("idsignin"));
         loginIcon.click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
+        waitUntilElementIsClickable(By.id("signinrequest"),20);
     }
 
     @Test
@@ -30,10 +31,10 @@ public class WebLoginPageTests extends TestBase{
      passwordInput.click();
      passwordInput.sendKeys("marina1!");
      driver.findElement(By.id("signinrequest")).click();
-     Thread.sleep(10000);
+     //Thread.sleep(10000);
+        waitUntilElementIsClickable(By.id("profile"),20);
      WebElement profileIcon = driver.findElement(By.id("profile"));
-     //System.out.println("We are on the Home Page (Auth) screen: " + profileIcon.getAttribute("title").contains("marinaA"));
-        Assert.assertTrue(profileIcon.getAttribute("title").contains("marinaA"));
+     Assert.assertTrue(profileIcon.getAttribute("title").contains("marinaA"));
 
  }
 
@@ -48,18 +49,21 @@ public class WebLoginPageTests extends TestBase{
      driver.findElement(By.id("passwordinput")).sendKeys("123");
      WebElement signInButton = driver.findElement(By.id("signinrequest"));
      signInButton.click();
-     Thread.sleep(3000);
+     //Thread.sleep(3000);
+     waitUntilElementIsVisible(By.id("wrongloginorpassword"),10);
 
      //--- Error message 'wrong authorization is displayed' ----
-     System.out.println("The system displays an error message: " + driver
+
+     Assert.assertTrue(driver
              .findElement(By.id("wrongloginorpassword")).getText().contains("Wrong Authorization"));
 
      //--- Close login window ---
      driver.findElement(By.id("closedsignin")).click();
-     Thread.sleep(3000);
+     //Thread.sleep(3000);
+     waitUntilElementIsVisible(By.id("idtitletypesearchevents"),20);
+
      // ---- Usr is on the HomePage for the unauthorized user
-     System.out.println("User is on the HomePage unauthorized: " + driver
-             .findElement(By.id("idsignin")).getText().equals("Login"));
+
 
      Assert.assertEquals(driver
              .findElement(By.id("idsignin")).getText(), "Login","Name of the loginButton is not equal to 'Login'");
