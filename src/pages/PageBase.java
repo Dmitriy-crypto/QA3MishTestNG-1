@@ -10,6 +10,8 @@ import java.util.List;
 
 public class PageBase {
     WebDriver driver;
+    public static final String LOGIN = "marinaA";
+    public static final String PASSWORD = "marina1!";
 
     PageBase(WebDriver driver){
         this.driver = driver;

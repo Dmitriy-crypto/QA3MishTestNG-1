@@ -10,102 +10,63 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.HomePageAuthHelper;
+import pages.HomePageHelper;
+import pages.LoginPageHelper;
 
 public class LoginPageTests extends TestBase {
-
+HomePageHelper homePage;
+LoginPageHelper loginPage;
+HomePageAuthHelper homePageAuth;
 
 
 
     @BeforeMethod
     public void initTests() throws InterruptedException {
+    homePage = new HomePageHelper(driver);
+    loginPage = new LoginPageHelper(driver);
+    homePageAuth = new HomePageAuthHelper(driver);
 
 
-        //--- Login to the system ----
-        waitUntilElementIsClickable(By.id("idsignin"),20);
-        WebElement loginIcon = driver.findElement(By.id("idsignin"));
-        loginIcon.click();
-        //Thread.sleep(2000);
-        waitUntilElementIsClickable(By.id("signinrequest"),20);
+    homePage.waitUntilPageIsLoaded();
+    loginPage.openLoginPage();
+    loginPage.waitUntilPageIsLoaded();
 
     }
 
     @Test
     public void loginScreenVerificationTest(){
 
-        Assert.assertTrue(driver
-                .findElement(By.id("clickreg")).getText().contains("registration"),
+        Assert.assertTrue(loginPage.correctPageIsLoaded(),
                 "It is not login screen or there is no 'registration' on login screen");
     }
 
     @Test
-    public void loginNegativeTest() throws InterruptedException {
+    public void loginNegativeTest()  {
 
-        //---- Enter incorrect login/psw ---
-        driver.findElement(By.id("logininput")).sendKeys(LOGIN);
-        driver.findElement(By.id("passwordinput")).sendKeys("123");
-        WebElement signInButton = driver.findElement(By.id("signinrequest"));
-        signInButton.click();
-        //Thread.sleep(3000);
-        waitUntilElementIsVisible(By.id("wrongloginorpassword"),10);
+        loginPage.loginToTheSystem(LOGIN,"123");
+        Assert.assertTrue(loginPage.loginToTheSystemIncorrect());
 
-        //--- Error message 'wrong authorization is displayed' ----
-        System.out.println("The system displays an error message: " + driver
-                .findElement(By.id("wrongloginorpassword")).getText()
-                .contains("Wrong Authorization"));
+        loginPage.closeLoginWindowByX();
+        homePage.waitUntilPageIsLoaded();
+        Assert.assertTrue(homePage.correctPageIsLoaded());
 
-        //--- Close login window ---
-        driver.findElement(By.id("closedsignin")).click();
-        //Thread.sleep(3000);
-        waitUntilElementIsClickable(By.id("idsignin"),20);
-        waitUntilElementIsVisible(By
-                .xpath("//span[@id='idtitletypesearchevents']"),20);
-        // ---- Usr is on the HomePage for the unauthorized user
-        System.out.println("User is on the HomePage unauthorized: " + driver
-                .findElement(By.id("idsignin")).getText().equals("Login"));
-        Assert.assertEquals(driver
-                .findElement(By.id("idsignin")).getText(),"Login",
-                "Name of the login button is not 'Login'");
     }
 
     @Test
-    public void loginExitByCancelTest() throws InterruptedException {
-        //--- Close login window ---
-        driver.findElement(By.id("closedsignin")).click();
-        //Thread.sleep(3000);
-        waitUntilElementIsClickable(By.id("idsignin"),20);
-        waitUntilElementIsVisible(By
-                .xpath("//span[@id='idtitletypesearchevents']"),20);
+    public void loginExitByCancelTest()  {
 
-        // ---- Usr is on the HomePage for the unauthorized user
-        Assert.assertEquals(driver
-                .findElement(By.id("idsignin")).getText(),"Login",
-                "Name of the login button is not 'Login'");
+        loginPage.closeLoginWindowByX();
+        homePage.waitUntilPageIsLoaded();
+        Assert.assertTrue(homePage.correctPageIsLoaded());
 
 
     }
     @Test
-    public void loginPositiveTest() throws InterruptedException {
-        //----- Find login and password fields and fill them
-        WebElement loginField = driver.findElement(By.id("logininput"));
-        WebElement passwordField = driver.findElement(By.id("passwordinput"));
-        loginField.click();
-        loginField.sendKeys("marinaA");
-        passwordField.click();
-        passwordField.sendKeys("marina1!");
-
-        //---- Find sign in button and press on it ----
-        driver.findElement(By.id("signinrequest")).click();
-
-        //---- Go to the HomePage Auth -------
-        //Thread.sleep(7000);
-        waitUntilElementIsClickable(By.id("profile"),30);
-        WebElement profileIcon = driver.findElement(By.id("profile"));
-
-        // ------ Check that we on the HomePage for authorized user---
-
-        Assert.assertTrue(profileIcon.getAttribute("title").contains("marinaA"),"ProfileIcon do not contains login");
-
-
+    public void loginPositiveTest()  {
+        loginPage.loginToTheSystem(LOGIN,PASSWORD);
+        homePageAuth.waitUntilPageIsLoaded();
+        Assert.assertTrue(homePageAuth.correctPageIsLoaded());
     }
 
 }

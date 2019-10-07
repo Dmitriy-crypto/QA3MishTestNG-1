@@ -28,8 +28,8 @@ public class HomePageTests extends TestBase {
 
         Assert.assertTrue(homePage.correctPageIsLoaded(),
                 "Name of the listEvent element is not 'List events'");
-
     }
+
     @Test
     public void singleFilterHolidaysByShabbat()  {
         homePage.filterEventsByHolidayShabbat();
