@@ -34,8 +34,6 @@ public class HomePageTests extends TestBase {
     public void singleFilterHolidaysByShabbat()  {
         homePage.filterEventsByHolidayShabbat();
         Assert.assertTrue(homePage.allEventsBelongToHolidayShabbat());
-
-
     }
 
 
