@@ -13,6 +13,7 @@ public class ProfilePageTests extends TestBase{
     @BeforeMethod
     public void initTests() throws InterruptedException {
         //--- Login to the system ---
+        waitUntilElementIsClickable(By.id("idsignin"),20);
         WebElement loginIcon = driver.findElement(By.id("idsignin"));
         loginIcon.click();
         Thread.sleep(3000);

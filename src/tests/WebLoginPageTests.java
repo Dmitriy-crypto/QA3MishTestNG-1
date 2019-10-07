@@ -7,18 +7,23 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.LoginPageHelper;
 
 import static tests.TestBase.LOGIN;
 
 public class WebLoginPageTests extends TestBase{
 
+    LoginPageHelper loginPage;
     @BeforeMethod
     public void initTests() throws InterruptedException {
+        loginPage = new LoginPageHelper(driver);
         //Thread.sleep(6000);
-        WebElement loginIcon  = driver.findElement(By.id("idsignin"));
-        loginIcon.click();
+        /*WebElement loginIcon  = driver.findElement(By.id("idsignin"));
+        loginIcon.click();*/
         //Thread.sleep(3000);
-        waitUntilElementIsClickable(By.id("signinrequest"),20);
+        //waitUntilElementIsClickable(By.id("signinrequest"),20);
+        loginPage.loginPageOpen();
+        loginPage.waitUntilPageIsLoaded();
     }
 
     @Test

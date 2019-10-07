@@ -1,34 +1,18 @@
-package tests;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 
 import java.util.List;
 
-public class TestBase {
-    public static final String LOGIN = "marinaA";
-    public static final String PASSWORD = "marina1!";
+public class PageBase {
     WebDriver driver;
 
-    @BeforeMethod
-    public void initWebDriver() throws InterruptedException {
-        driver = new ChromeDriver();
-        driver.get("https://mishpahug.co.il/");
-        waitUntilElementIsClickable(By.id("closedIntro"),30);
-        driver.findElement(By.id("closedIntro")).click();
-        //Thread.sleep(5000);
-       // waitUntilElementIsClickable(By.id("idsignin"),20);
-    }
-
-    @AfterMethod
-    public void tearDown(){
-        driver.quit();
+    PageBase(WebDriver driver){
+        this.driver = driver;
     }
 
     public void waitUntilElementIsVisible(By locator, int time){

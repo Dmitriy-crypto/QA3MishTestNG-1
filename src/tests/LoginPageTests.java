@@ -21,6 +21,7 @@ public class LoginPageTests extends TestBase {
 
 
         //--- Login to the system ----
+        waitUntilElementIsClickable(By.id("idsignin"),20);
         WebElement loginIcon = driver.findElement(By.id("idsignin"));
         loginIcon.click();
         //Thread.sleep(2000);
