@@ -19,6 +19,10 @@ public class HomePageHelper extends PageBase {
 
     public void waitUntilPageIsLoaded(){
         waitUntilElementIsClickable(By.id("idsignin"),20);
+        /*waitUntilAllElementsVisible(driver.findElements(By
+                .xpath("//div[@class = 'itemEventInsert']")),60);*/
+        waitUntilAllElementsPresent(By
+                .xpath("//div[@class = 'itemEventInsert']"), 40);
     }
 
     public Boolean correctPageIsLoaded(){
@@ -31,8 +35,9 @@ public class HomePageHelper extends PageBase {
     public void filterEventsByHolidayShabbat() {
         // ----- to wait that select-element (filter by holiday) and all options are loaded ---
         waitUntilElementIsVisible(By.name("selectholidays"),30);
-        waitUntilAllElementsVisible(driver
-                .findElements(By.xpath("//select[@name = 'selectholidays']/option")),30);
+        /*waitUntilAllElementsVisible(driver
+                .findElements(By.xpath("//select[@name = 'selectholidays']/option")),30);*/
+        waitUntilAllElementsPresent(By.xpath("//select[@name = 'selectholidays']/option"),30);
         // --- get select-element (filter by holiday)
         WebElement holidaysFilter = driver
                 .findElement(By.name("selectholidays"));
@@ -43,8 +48,23 @@ public class HomePageHelper extends PageBase {
                 .findElement(By.xpath("//div[@id='idbtnclearfilter']")).isEnabled());
 
         // ------ choose filter "shabbat" ------
-        Select selector = new Select(holidaysFilter);
-        selector.selectByValue("Shabbat");
+        Select selector;
+        try{
+            selector = new Select(holidaysFilter);
+            selector.selectByValue("Shabbat");
+        }catch(Exception e){
+            try {
+                Thread.sleep(20000);
+                System.out.println("Exception: " + e);
+                selector = new Select(driver
+                        .findElement(By.name("selectholidays")));
+                selector.selectByValue("Shabbat");
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
 
         // ------ wait that filter "shabbat" is chosen -----
         waitUntilElementIsClickable(By

@@ -41,6 +41,14 @@ public class PageBase {
             e.printStackTrace();
         }
     }
+    public void waitUntilAllElementsPresent(By locator, int time){
+        try{
+            new WebDriverWait(driver, time)
+                    .until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public void waitUntilElementIsClickable(By locator, int time){
         try{
