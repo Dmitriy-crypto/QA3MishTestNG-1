@@ -122,6 +122,7 @@ public class ProfilePageTests extends TestBase{
 
 
         //----------------- Go to the Family ------------------------
+        waitUntilElementIsClickable(By.id("family"),20);
         driver.findElement(By.id("family")).click();
         //Thread.sleep(5000);
         waitUntilTextPresentInElement(By.id("titleprofile"), "My Family:",30);
