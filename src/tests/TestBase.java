@@ -20,6 +20,7 @@ public class TestBase {
     public void initWebDriver() throws InterruptedException {
         driver = new ChromeDriver();
         driver.get("https://mishpahug.co.il/");
+        driver.manage().window().fullscreen();
         waitUntilElementIsClickable(By.id("closedIntro"),30);
         driver.findElement(By.id("closedIntro")).click();
         //Thread.sleep(5000);
@@ -60,6 +61,15 @@ public class TestBase {
         try{
             new WebDriverWait(driver, time)
                     .until(ExpectedConditions.elementToBeClickable(locator));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void waitUntilTextPresentInElement(By locator, String text, int time){
+        try{
+            new WebDriverWait(driver, time)
+                    .until(ExpectedConditions.textToBePresentInElementLocated(locator,text));
         } catch(Exception e){
             e.printStackTrace();
         }

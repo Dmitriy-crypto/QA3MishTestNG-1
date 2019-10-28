@@ -1,6 +1,7 @@
 package tests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,12 +12,13 @@ import org.testng.annotations.Test;
 public class ProfilePageTests extends TestBase{
 
     @BeforeMethod
-    public void initTests() throws InterruptedException {
+    public void initTests()  {
         //--- Login to the system ---
         waitUntilElementIsClickable(By.id("idsignin"),20);
         WebElement loginIcon = driver.findElement(By.id("idsignin"));
         loginIcon.click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
+        waitUntilElementIsClickable(By.id("signinrequest"),20);
 
         WebElement loginField = driver.findElement(By.id("logininput"));
         WebElement passwordField = driver.findElement(By.id("passwordinput"));
@@ -26,21 +28,26 @@ public class ProfilePageTests extends TestBase{
         passwordField.sendKeys("marina1!");
 
         driver.findElement(By.id("signinrequest")).click();
-
-        Thread.sleep(5000);
+        //Thread.sleep(5000);
+        waitUntilElementIsClickable(By.id("profile"),20);
 
         //--- Go to the Profile Page
         driver.findElement(By.id("profile")).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
+        waitUntilElementIsClickable(By.id("idbtneditprofile"),20);
+        waitUntilTextPresentInElement(By.id("titleprofile"), "My Profile:",20);
+        waitUntilElementIsVisible(By.id("imgavatarinprofilefamily"), 20);
 
     }
 
     @Test
-    public void lastNameOfFamilyChanging() throws InterruptedException {
+    public void lastNameOfFamilyChanging()  {
 
         // --- Open in edit mode ----
         driver.findElement(By.id("idbtneditprofile")).click();
-        Thread.sleep(7000);
+        //Thread.sleep(7000);
+        waitUntilElementIsClickable(By.xpath("//span[@id='fieldobjfamilyName']/input"),30);
+        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),30);
 
         //--- Enter new last name ---
         WebElement lastNameField = driver
@@ -49,26 +56,35 @@ public class ProfilePageTests extends TestBase{
         lastNameField.clear();
         lastNameField.sendKeys("Petrov");
 
-        Thread.sleep(5000);
+        //Thread.sleep(20000);
 
         //--- Save profile ---
+        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
         driver.findElement(By.id("idbtnsaveprofile")).click();
-        Thread.sleep(5000);
+        waitUntilTextPresentInElement(By
+                .xpath("//span[@id='fieldobjfamilyName']/a"),"Petrov", 20);
+        //Thread.sleep(5000);
+        waitUntilElementIsClickable(By.id("family"),20);
 
         // --- Go to the family page-----
         driver.findElement(By.id("family")).click();
-        Thread.sleep(5000);
 
-        System.out.println("Last name of the family verification: " + driver
-                .findElement(By.id("titleprofile")).getText().contains("Petrov"));
+        //Thread.sleep(5000);
+        waitUntilTextPresentInElement(By.id("titleprofile"), "My Family:",30);
+
 
         // ---- Return to the profile
         driver.findElement(By.id("profile")).click();
-        Thread.sleep(3000);
+        waitUntilElementIsClickable(By.id("idbtneditprofile"),20);
+        waitUntilTextPresentInElement(By.id("titleprofile"), "My Profile:",20);
+        waitUntilElementIsVisible(By.id("imgavatarinprofilefamily"), 20);
+        //Thread.sleep(3000);
 
         // --- Open in edit mode ----
         driver.findElement(By.id("idbtneditprofile")).click();
-        Thread.sleep(7000);
+        //Thread.sleep(7000);
+        waitUntilElementIsClickable(By.xpath("//span[@id='fieldobjfamilyName']/input"),30);
+        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),30);
 
         //--- Enter new last name ---
         lastNameField = driver
@@ -77,21 +93,23 @@ public class ProfilePageTests extends TestBase{
         lastNameField.clear();
         lastNameField.sendKeys("Shuster");
 
-        Thread.sleep(5000);
+       // Thread.sleep(5000);
+        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
 
         //--- Save profile ---
         driver.findElement(By.id("idbtnsaveprofile")).click();
-        Thread.sleep(5000);
+        waitUntilTextPresentInElement(By
+                .xpath("//span[@id='fieldobjfamilyName']/a"),"Shuster", 20);
 
-        System.out.println("Last name was changed: " + driver.findElement(By.linkText("Shuster")).isDisplayed());
+        //Thread.sleep(5000);
 
-        //driver.quit();
+
         Assert.assertTrue(driver.findElement(By.linkText("Shuster")).isDisplayed(),
                 "There is no an element which can be find by linkText('Shuster')");
 
     }
     @Test
-    public void profileAndFamilyPageComparing() throws InterruptedException {
+    public void profileAndFamilyPageComparing() {
 
         String profileConfession = driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText();
         System.out.println("Profile confession: " + profileConfession);
@@ -105,7 +123,8 @@ public class ProfilePageTests extends TestBase{
 
         //----------------- Go to the Family ------------------------
         driver.findElement(By.id("family")).click();
-        Thread.sleep(5000);
+        //Thread.sleep(5000);
+        waitUntilTextPresentInElement(By.id("titleprofile"), "My Family:",30);
 
         //----------------------Comparing--------------------------
 
@@ -129,14 +148,6 @@ public class ProfilePageTests extends TestBase{
                 .getText().equals(profileFoodPreference)) counter++;
 
         Assert.assertEquals(counter,3);
-        /*Assert.assertEquals(driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText(),profileConfession,
-                "Confession values are the same on profile and family pages");
-        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='fieldobjlanguages']")).getText(), profileLanguage,
-                "Language values are the same on profile and family pages");
-        Assert.assertEquals(driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences")).getText(),
-                profileFoodPreference,"Food preferences values are the same on profile and family pages");
-
-        */
     }
 
 }
