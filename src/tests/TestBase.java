@@ -1,6 +1,7 @@
 package tests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,6 +22,8 @@ public class TestBase {
         driver = new ChromeDriver();
         driver.get("https://mishpahug.co.il/");
         driver.manage().window().fullscreen();
+        /*Dimension dimension = new Dimension(800, 600);
+        driver.manage().window().setSize(dimension);*/
         waitUntilElementIsClickable(By.id("closedIntro"),30);
         driver.findElement(By.id("closedIntro")).click();
         //Thread.sleep(5000);

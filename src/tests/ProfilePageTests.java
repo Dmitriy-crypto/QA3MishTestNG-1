@@ -59,7 +59,10 @@ public class ProfilePageTests extends TestBase{
         //Thread.sleep(20000);
 
         //--- Save profile ---
+        //JavascriptExecutor js = (JavascriptExecutor) driver;
+        //js.executeScript("window.scrollTo(0, 0)");
         waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
+
         driver.findElement(By.id("idbtnsaveprofile")).click();
         waitUntilTextPresentInElement(By
                 .xpath("//span[@id='fieldobjfamilyName']/a"),"Petrov", 20);
@@ -94,6 +97,7 @@ public class ProfilePageTests extends TestBase{
         lastNameField.sendKeys("Shuster");
 
        // Thread.sleep(5000);
+        //js.executeScript("window.scrollTo(0, 0)");
         waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
 
         //--- Save profile ---
