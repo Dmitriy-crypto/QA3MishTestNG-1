@@ -22,12 +22,11 @@ public class TestBase {
         driver = new ChromeDriver();
         driver.get("https://mishpahug.co.il/");
         driver.manage().window().fullscreen();
-        /*Dimension dimension = new Dimension(800, 600);
-        driver.manage().window().setSize(dimension);*/
+        //Dimension dimension = new Dimension(800, 600);
+        //driver.manage().window().setSize(dimension);
         waitUntilElementIsClickable(By.id("closedIntro"),30);
         driver.findElement(By.id("closedIntro")).click();
-        //Thread.sleep(5000);
-       // waitUntilElementIsClickable(By.id("idsignin"),20);
+
     }
 
     @AfterMethod

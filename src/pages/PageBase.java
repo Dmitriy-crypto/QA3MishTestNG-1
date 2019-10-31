@@ -58,4 +58,13 @@ public class PageBase {
             e.printStackTrace();
         }
     }
+
+    public void waitUntilTextPresentInElement(By locator, String text, int time){
+        try{
+            new WebDriverWait(driver, time)
+                    .until(ExpectedConditions.textToBePresentInElementLocated(locator,text));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

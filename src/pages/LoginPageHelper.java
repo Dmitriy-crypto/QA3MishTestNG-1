@@ -11,12 +11,15 @@ public class LoginPageHelper extends PageBase {
     }
 
     public void waitUntilPageIsLoaded(){
+
         waitUntilElementIsClickable(By.id("signinrequest"),20);
     }
 
     public void openLoginPage(){
+        waitUntilElementIsClickable(By.id("idsignin"),20);
         WebElement loginIcon = driver.findElement(By.id("idsignin"));
         loginIcon.click();
+        waitUntilPageIsLoaded();
     }
 
     public Boolean correctPageIsLoaded(){

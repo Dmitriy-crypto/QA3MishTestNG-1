@@ -8,150 +8,65 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.*;
 
 public class ProfilePageTests extends TestBase{
+    HomePageHelper homePage;
+    LoginPageHelper loginPage;
+    HomePageAuthHelper homePageAuth;
+    ProfilePageHelper profilePage;
+    FamilyPageHelper familyPage;
 
     @BeforeMethod
     public void initTests()  {
-        //--- Login to the system ---
-        waitUntilElementIsClickable(By.id("idsignin"),20);
-        WebElement loginIcon = driver.findElement(By.id("idsignin"));
-        loginIcon.click();
-        //Thread.sleep(3000);
-        waitUntilElementIsClickable(By.id("signinrequest"),20);
+        homePage = new HomePageHelper(driver);
+        loginPage = new LoginPageHelper(driver);
+        homePageAuth = new HomePageAuthHelper(driver);
+        profilePage = new ProfilePageHelper(driver);
+        familyPage = new FamilyPageHelper(driver);
 
-        WebElement loginField = driver.findElement(By.id("logininput"));
-        WebElement passwordField = driver.findElement(By.id("passwordinput"));
-        loginField.click();
-        loginField.sendKeys("marinaA");
-        passwordField.click();
-        passwordField.sendKeys("marina1!");
-
-        driver.findElement(By.id("signinrequest")).click();
-        //Thread.sleep(5000);
-        waitUntilElementIsClickable(By.id("profile"),20);
-
-        //--- Go to the Profile Page
-        driver.findElement(By.id("profile")).click();
-        //Thread.sleep(3000);
-        waitUntilElementIsClickable(By.id("idbtneditprofile"),20);
-        waitUntilTextPresentInElement(By.id("titleprofile"), "My Profile:",20);
-        waitUntilElementIsVisible(By.id("imgavatarinprofilefamily"), 20);
+        homePage.waitUntilPageIsLoaded();
+        loginPage.openLoginPage();
+        loginPage.loginToTheSystem(LOGIN,PASSWORD);
+        homePageAuth.waitUntilPageIsLoaded();
+        profilePage.openProfilePage();
 
     }
 
     @Test
     public void lastNameOfFamilyChanging()  {
+        profilePage.openEditMode();
+        profilePage.enterFamilyName("Petrov");
+        profilePage.saveChanges();
+        familyPage.openFamilyPage();
 
-        // --- Open in edit mode ----
-        driver.findElement(By.id("idbtneditprofile")).click();
-        //Thread.sleep(7000);
-        waitUntilElementIsClickable(By.xpath("//span[@id='fieldobjfamilyName']/input"),30);
-        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),30);
+        Assert.assertEquals("My Family: Petrov",familyPage.getTitle());
 
-        //--- Enter new last name ---
-        WebElement lastNameField = driver
-                .findElement(By.xpath("//span[@id='fieldobjfamilyName']//input"));
-        lastNameField.click();
-        lastNameField.clear();
-        lastNameField.sendKeys("Petrov");
-
-        //Thread.sleep(20000);
-
-        //--- Save profile ---
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo(0, 0)");
-        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
-
-        driver.findElement(By.id("idbtnsaveprofile")).click();
-        waitUntilTextPresentInElement(By
-                .xpath("//span[@id='fieldobjfamilyName']/a"),"Petrov", 20);
-        //Thread.sleep(5000);
-        waitUntilElementIsClickable(By.id("family"),20);
-
-        // --- Go to the family page-----
-        driver.findElement(By.id("family")).click();
-
-        //Thread.sleep(5000);
-        waitUntilTextPresentInElement(By.id("titleprofile"), "My Family:",30);
+        profilePage.openProfilePage();
+        profilePage.openEditMode();
+        profilePage.enterFamilyName("Ivanov");
+        profilePage.saveChanges();
 
 
-        // ---- Return to the profile
-        driver.findElement(By.id("profile")).click();
-        waitUntilElementIsClickable(By.id("idbtneditprofile"),20);
-        waitUntilTextPresentInElement(By.id("titleprofile"), "My Profile:",20);
-        waitUntilElementIsVisible(By.id("imgavatarinprofilefamily"), 20);
-        //Thread.sleep(3000);
-
-        // --- Open in edit mode ----
-        driver.findElement(By.id("idbtneditprofile")).click();
-        //Thread.sleep(7000);
-        waitUntilElementIsClickable(By.xpath("//span[@id='fieldobjfamilyName']/input"),30);
-        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),30);
-
-        //--- Enter new last name ---
-        lastNameField = driver
-                .findElement(By.xpath("//span[@id='fieldobjfamilyName']//input"));
-        lastNameField.click();
-        lastNameField.clear();
-        lastNameField.sendKeys("Shuster");
-
-       // Thread.sleep(5000);
-        js.executeScript("window.scrollTo(0, 0)");
-        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
-
-        //--- Save profile ---
-        driver.findElement(By.id("idbtnsaveprofile")).click();
-        waitUntilTextPresentInElement(By
-                .xpath("//span[@id='fieldobjfamilyName']/a"),"Shuster", 20);
-
-        //Thread.sleep(5000);
-
-
-        Assert.assertTrue(driver.findElement(By.linkText("Shuster")).isDisplayed(),
-                "There is no an element which can be find by linkText('Shuster')");
+        //Assert.assertTrue(driver.findElement(By.linkText("Shuster")).isDisplayed(),
+             //   "There is no an element which can be find by linkText('Shuster')");
+        //Assert.assertEquals("Ivanov", profilePage.getFamilyName());
+        Assert.assertTrue(profilePage.familyNameIsDisplayed("Ivanov"));
 
     }
     @Test
     public void profileAndFamilyPageComparing() {
 
-        String profileConfession = driver.findElement(By.xpath("//span[@id='fieldobjconfession']")).getText();
-        System.out.println("Profile confession: " + profileConfession);
+        String profileConfession = profilePage.getConfession();
+        String profileLanguage = profilePage.getLanguage();
+        String profileFoodPreference = profilePage.getFood();
 
-        String profileLanguage = driver.findElement(By.cssSelector("#fieldobjlanguages")).getText();
-        System.out.println("Profile Language: " + profileLanguage);
+        familyPage.openFamilyPage();
 
-        String profileFoodPreference = driver.findElement(By.xpath("//*[@id='fieldobjfoodPreferences']")).getText();
-        System.out.println("Profile Food Preference: " + profileFoodPreference);
-
-
-        //----------------- Go to the Family ------------------------
-        waitUntilElementIsClickable(By.id("family"),20);
-        driver.findElement(By.id("family")).click();
-        //Thread.sleep(5000);
-        waitUntilTextPresentInElement(By.id("titleprofile"), "My Family:",30);
-
-        //----------------------Comparing--------------------------
-
-        System.out.println("Confession values are the same for profile and family page: "
-                + driver.findElement(By.xpath("//span[@id='fieldobjconfession']"))
-                                        .getText().equals(profileConfession));
-
-        System.out.println("Language values are the same for profile and family page: "
-                + driver.findElement(By.xpath("//span[@id='fieldobjlanguages']"))
-                                        .getText().equals(profileLanguage));
-
-        System.out.println("Food preferences values are the same for profile and family page: "
-                + driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences"))
-                                        .getText().equals(profileFoodPreference));
         int counter = 0;
-        if (driver.findElement(By.xpath("//span[@id='fieldobjconfession']"))
-                .getText().equals(profileConfession)) counter++;
-        if (driver.findElement(By.xpath("//span[@id='fieldobjlanguages']"))
-                .getText().equals(profileLanguage)) counter++;
-        if (driver.findElement(By.cssSelector(".itemprofilefit > #fieldobjfoodPreferences"))
-                .getText().equals(profileFoodPreference)) counter++;
+        if (familyPage.getConfession().equals(profileConfession)) counter++;
+        if (familyPage.getLanguages().equals(profileLanguage)) counter++;
+        if (familyPage.getFood().equals(profileFoodPreference)) counter++;
 
         Assert.assertEquals(counter,3);
     }
