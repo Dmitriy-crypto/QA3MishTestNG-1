@@ -35,22 +35,18 @@ public class ProfilePageTests extends TestBase{
 
     @Test
     public void lastNameOfFamilyChanging()  {
-        profilePage.openEditMode();
-        profilePage.enterFamilyName("Petrov");
-        profilePage.saveChanges();
+        profilePage.openEditMode()
+                   .enterFamilyName("Petrov")
+                   .saveChanges();
         familyPage.openFamilyPage();
 
         Assert.assertEquals("My Family: Petrov",familyPage.getTitle());
 
-        profilePage.openProfilePage();
-        profilePage.openEditMode();
-        profilePage.enterFamilyName("Ivanov");
-        profilePage.saveChanges();
+        profilePage.openProfilePage()
+                   .openEditMode()
+                   .enterFamilyName("Ivanov")
+                   .saveChanges();
 
-
-        //Assert.assertTrue(driver.findElement(By.linkText("Shuster")).isDisplayed(),
-             //   "There is no an element which can be find by linkText('Shuster')");
-        //Assert.assertEquals("Ivanov", profilePage.getFamilyName());
         Assert.assertTrue(profilePage.familyNameIsDisplayed("Ivanov"));
 
     }

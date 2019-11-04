@@ -3,18 +3,20 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class HomePageAuthHelper extends PageBase {
+    @FindBy(id = "profile")
+    WebElement profileIcon;
     public HomePageAuthHelper(WebDriver driver) {
         super(driver);
     }
 
     public void waitUntilPageIsLoaded(){
-        waitUntilElementIsClickable(By.id("profile"),30);
+        waitUntilElementIsClickable(profileIcon, 20);
     }
 
     public Boolean correctPageIsLoaded(){
-        WebElement profileIcon = driver.findElement(By.id("profile"));
         return profileIcon.getAttribute("title").contains(LOGIN);
     }
 }

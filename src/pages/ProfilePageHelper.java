@@ -10,32 +10,34 @@ public class ProfilePageHelper extends PageBase {
         super(driver);
     }
 
-    public void openProfilePage() {
+    public ProfilePageHelper openProfilePage() {
         driver.findElement(By.id("profile")).click();
         waitUntilPageLoaded();
+        return this;
     }
 
-    public void waitUntilPageLoaded(){
+    public ProfilePageHelper waitUntilPageLoaded(){
         waitUntilElementIsClickable(By.id("idbtneditprofile"),20);
         waitUntilTextPresentInElement(By.id("titleprofile"), "My Profile:",20);
         waitUntilElementIsVisible(By.id("imgavatarinprofilefamily"), 20);
+        return this;
     }
 
-    public void openEditMode() {
+    public ProfilePageHelper openEditMode() {
         driver.findElement(By.id("idbtneditprofile")).click();
         waitUntilElementIsClickable(By.xpath("//span[@id='fieldobjfamilyName']/input"),30);
         waitUntilElementIsClickable(By.id("idbtnsaveprofile"),30);
+        return this;
     }
 
-    public void enterFamilyName(String name) {
+    public ProfilePageHelper enterFamilyName(String name) {
         WebElement lastNameField = driver
                 .findElement(By.xpath("//span[@id='fieldobjfamilyName']//input"));
-        lastNameField.click();
-        lastNameField.clear();
-        lastNameField.sendKeys(name);
+        enterValueToField(lastNameField,name);
+        return this;
     }
 
-    public void saveChanges() {
+    public ProfilePageHelper saveChanges() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(0, 0)");
         waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
@@ -43,8 +45,7 @@ public class ProfilePageHelper extends PageBase {
         driver.findElement(By.id("idbtnsaveprofile")).click();
         waitUntilElementIsClickable(By
                 .xpath("//div[@id='idbtneditprofile']"),20);
-        //waitUntilTextPresentInElement(By
-           //     .xpath("//span[@id='fieldobjfamilyName']/a"),"Petrov", 20);
+        return this;
     }
 
     public String getFamilyName() {

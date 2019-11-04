@@ -25,6 +25,15 @@ public class PageBase {
             e.printStackTrace();
         }
     }
+
+    public void waitUntilElementIsVisible(WebElement element, int time){
+        try{
+            new WebDriverWait(driver, time)
+                    .until(ExpectedConditions.visibilityOf(element));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     public void waitUntilElementIsPresent(By locator, int time){
         try{
             new WebDriverWait(driver, time)
@@ -50,10 +59,19 @@ public class PageBase {
         }
     }
 
+
     public void waitUntilElementIsClickable(By locator, int time){
         try{
             new WebDriverWait(driver, time)
                     .until(ExpectedConditions.elementToBeClickable(locator));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void waitUntilElementIsClickable(WebElement element, int time){
+        try{
+            new WebDriverWait(driver, time)
+                    .until(ExpectedConditions.elementToBeClickable(element));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -66,5 +84,11 @@ public class PageBase {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void enterValueToField(WebElement field, String text) {
+        field.click();
+        field.clear();
+        field.sendKeys(text);
     }
 }

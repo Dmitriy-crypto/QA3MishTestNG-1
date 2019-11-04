@@ -3,45 +3,70 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class LoginPageHelper extends PageBase {
+    @FindBy(id = "signinrequest")
+    WebElement signInButton;
+
+    @FindBy(id = "idsignin")
+    WebElement loginIcon;
+
+    @FindBy(id = "clickreg")
+    WebElement registrationLink;
+
+    @FindBy(id = "logininput")
+    WebElement loginField;
+
+    @FindBy(id = "passwordinput")
+    WebElement passwordField;
+
+    @FindBy(id = "wrongloginorpassword")
+    WebElement wrongAuth;
+
+    @FindBy(id = "closedsignin")
+    WebElement closeByXButton;
 
     public LoginPageHelper(WebDriver driver) {
         super(driver);
     }
 
-    public void waitUntilPageIsLoaded(){
+    public LoginPageHelper waitUntilPageIsLoaded(){
 
-        waitUntilElementIsClickable(By.id("signinrequest"),20);
+        waitUntilElementIsClickable(signInButton,20);
+        return this;
     }
 
-    public void openLoginPage(){
-        waitUntilElementIsClickable(By.id("idsignin"),20);
-        WebElement loginIcon = driver.findElement(By.id("idsignin"));
+    public LoginPageHelper openLoginPage(){
+        waitUntilElementIsClickable(loginIcon,20);
         loginIcon.click();
         waitUntilPageIsLoaded();
+        return this;
     }
 
     public Boolean correctPageIsLoaded(){
-    return driver
-            .findElement(By.id("clickreg")).getText().contains("registration");
+        return registrationLink.getText()
+                .contains("registration");
     }
 
-    public void loginToTheSystem(String login, String psw){
-        //---- Enter incorrect login/psw ---
-        driver.findElement(By.id("logininput")).sendKeys(login);
-        driver.findElement(By.id("passwordinput")).sendKeys(psw);
-        WebElement signInButton = driver.findElement(By.id("signinrequest"));
+    public LoginPageHelper loginToTheSystem(String login, String psw){
+        enterValueToField(loginField,login);
+        enterValueToField(passwordField,psw);
         signInButton.click();
+        return this;
     }
+
+
 
     public boolean loginToTheSystemIncorrect() {
-        waitUntilElementIsVisible(By.id("wrongloginorpassword"),10);
-        return  driver.findElement(By.id("wrongloginorpassword")).getText()
-                .contains("Wrong Authorization");
+        //waitUntilElementIsVisible(By.id("wrongloginorpassword"),10);
+        waitUntilElementIsVisible(wrongAuth,10);
+        return  wrongAuth.getText().contains("Wrong Authorization");
     }
 
-    public void closeLoginWindowByX() {
-        driver.findElement(By.id("closedsignin")).click();
+    public LoginPageHelper closeLoginWindowByX() {
+
+        closeByXButton.click();
+        return this;
     }
 }

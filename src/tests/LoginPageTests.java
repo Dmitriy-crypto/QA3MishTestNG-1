@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -22,15 +23,15 @@ HomePageAuthHelper homePageAuth;
 
 
     @BeforeMethod
-    public void initTests() throws InterruptedException {
-    homePage = new HomePageHelper(driver);
-    loginPage = new LoginPageHelper(driver);
-    homePageAuth = new HomePageAuthHelper(driver);
+    public void initTests() {
+     homePage = PageFactory.initElements(driver, HomePageHelper.class);
+     loginPage =PageFactory.initElements(driver, LoginPageHelper.class);
+     homePageAuth = PageFactory.initElements(driver, HomePageAuthHelper.class);
 
 
     homePage.waitUntilPageIsLoaded();
-    loginPage.openLoginPage();
-    loginPage.waitUntilPageIsLoaded();
+    loginPage.openLoginPage()
+             .waitUntilPageIsLoaded();
 
     }
 
