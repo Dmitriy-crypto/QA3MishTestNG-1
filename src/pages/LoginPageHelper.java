@@ -59,7 +59,6 @@ public class LoginPageHelper extends PageBase {
 
 
     public boolean loginToTheSystemIncorrect() {
-        //waitUntilElementIsVisible(By.id("wrongloginorpassword"),10);
         waitUntilElementIsVisible(wrongAuth,10);
         return  wrongAuth.getText().contains("Wrong Authorization");
     }
