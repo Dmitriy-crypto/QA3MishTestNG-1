@@ -86,6 +86,15 @@ public class PageBase {
         }
     }
 
+    public void waitUntilTextPresentInElement(WebElement element, String text, int time){
+        try{
+            new WebDriverWait(driver, time)
+                    .until(ExpectedConditions.textToBePresentInElement(element, text));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void enterValueToField(WebElement field, String text) {
         field.click();
         field.clear();

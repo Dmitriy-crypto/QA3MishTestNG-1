@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,11 +20,17 @@ public class ProfilePageTests extends TestBase{
 
     @BeforeMethod
     public void initTests()  {
-        homePage = new HomePageHelper(driver);
+       /* homePage = new HomePageHelper(driver);
         loginPage = new LoginPageHelper(driver);
         homePageAuth = new HomePageAuthHelper(driver);
         profilePage = new ProfilePageHelper(driver);
-        familyPage = new FamilyPageHelper(driver);
+        familyPage = new FamilyPageHelper(driver);*/
+
+        homePage = PageFactory.initElements(driver, HomePageHelper.class);
+        loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
+        homePageAuth = PageFactory.initElements(driver, HomePageAuthHelper.class);
+        profilePage = PageFactory.initElements(driver, ProfilePageHelper.class);
+        familyPage = PageFactory.initElements(driver, FamilyPageHelper.class);
 
         homePage.waitUntilPageIsLoaded();
         loginPage.openLoginPage();
