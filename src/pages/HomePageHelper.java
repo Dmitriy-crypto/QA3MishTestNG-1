@@ -53,22 +53,7 @@ public class HomePageHelper extends PageBase {
         waitUntilElementIsVisible(filterHolidays,30);
         waitUntilAllElementsPresent(By.xpath("//select[@name = 'selectholidays']/option"),30);
         // ------ choose filter "shabbat" ------
-        Select selector;
-        try{
-            selector = new Select(filterHolidays);
-            selector.selectByValue("Shabbat");
-        }catch(Exception e){
-            try {
-                Thread.sleep(20000);
-                System.out.println("Exception: " + e);
-                /*selector = new Select(driver
-                        .findElement(By.name("selectholidays")));*/
-                selector = new Select(filterHolidays);
-                selector.selectByValue("Shabbat");
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
+        selectValueFromList(filterHolidays,"Shabbat");
 
         // ------ wait that filter "shabbat" is chosen -----
         waitUntilElementIsClickable(clearFilterButton,20);
@@ -78,6 +63,8 @@ public class HomePageHelper extends PageBase {
 
         return this;
     }
+
+
 
     public Boolean allEventsBelongToHolidayShabbat() {
 

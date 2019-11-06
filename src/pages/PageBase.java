@@ -1,9 +1,11 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -99,5 +101,27 @@ public class PageBase {
         field.click();
         field.clear();
         field.sendKeys(text);
+    }
+
+    public void selectValueFromList(WebElement element, String value) {
+        Select selector;
+        try{
+            selector = new Select(element);
+            selector.selectByValue(value);
+        }catch(Exception e){
+            try {
+                Thread.sleep(20000);
+                System.out.println("Exception: " + e);
+                selector = new Select(element);
+                selector.selectByValue(value);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void scrollPageUp() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, 0)");
     }
 }

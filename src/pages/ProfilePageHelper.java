@@ -42,16 +42,13 @@ public class ProfilePageHelper extends PageBase {
     }
 
     public ProfilePageHelper openProfilePage() {
-        //driver.findElement(By.id("profile")).click();
         profileButton.click();
         waitUntilPageLoaded();
         return this;
     }
 
     public ProfilePageHelper waitUntilPageLoaded(){
-        //waitUntilElementIsClickable(By.id("idbtneditprofile"),20);
-        //waitUntilTextPresentInElement(By.id("titleprofile"), "My Profile:",20);
-        //waitUntilElementIsVisible(By.id("imgavatarinprofilefamily"), 20);
+
         waitUntilElementIsClickable(editButton,20);
         waitUntilTextPresentInElement(titleProfile,"My Profile:",20);
         waitUntilElementIsVisible(avatarFamily,20);
@@ -59,10 +56,6 @@ public class ProfilePageHelper extends PageBase {
     }
 
     public ProfilePageHelper openEditMode() {
-        /*driver.findElement(By.id("idbtneditprofile")).click();
-        waitUntilElementIsClickable(By.xpath("//span[@id='fieldobjfamilyName']/input"),30);
-        waitUntilElementIsClickable(By.id("idbtnsaveprofile"),30);*/
-
         editButton.click();
         waitUntilElementIsClickable(inputFamilyName,20);
         waitUntilElementIsClickable(saveButton,20);
@@ -70,25 +63,19 @@ public class ProfilePageHelper extends PageBase {
     }
 
     public ProfilePageHelper enterFamilyName(String name) {
-        /*WebElement lastNameField = driver
-                .findElement(By.xpath("//span[@id='fieldobjfamilyName']//input"));*/
         enterValueToField(inputFamilyName,name);
         return this;
     }
 
     public ProfilePageHelper saveChanges() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo(0, 0)");
-        /*waitUntilElementIsClickable(By.id("idbtnsaveprofile"),20);
-
-        driver.findElement(By.id("idbtnsaveprofile")).click();
-        waitUntilElementIsClickable(By
-                .xpath("//div[@id='idbtneditprofile']"),20);*/
+        scrollPageUp();
         waitUntilElementIsClickable(saveButton,20);
         saveButton.click();
         waitUntilElementIsClickable(editButton,20);
         return this;
     }
+
+
 
     public String getFamilyName() {
         return driver.findElement(By.xpath("//span[@id='fieldobjfamilyName']/a")).getText();
